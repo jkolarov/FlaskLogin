@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block breadcrumb %}Home{% endblock %}
+
+{% block content %}
+<!-- Page Title with Time Filters -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-white mb-4 sm:mb-0">Home</h1>
+    <div class="flex items-center space-x-2">
+        <button class="px-3 py-1.5 text-sm bg-card-bg border border-border-color rounded-lg text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+            Last 24 hours
+        </button>
+        <button class="px-3 py-1.5 text-sm bg-accent/20 border border-accent rounded-lg text-accent">
+            Last 7 days
+        </button>
+        <button class="px-3 py-1.5 text-sm bg-card-bg border border-border-color rounded-lg text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+            Last 30 days
+        </button>
+        <button class="px-3 py-1.5 text-sm bg-card-bg border border-border-color rounded-lg text-gray-400 hover:text-white hover:border-gray-500 transition-colors flex items-center">
+            Custom range
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Brand Visibility Section -->
+<div class="mb-6">
+    <h2 class="text-lg font-medium text-white mb-1">Brand visibility</h2>
+    <p class="text-sm text-gray-500">Percentage of users who have logged in this week</p>
+</div>
+
+<!-- Main Stats Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <!-- Visibility Score Card with Chart -->
+    <div class="lg:col-span-2 bg-card-bg border border-border-color rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <p class="text-sm text-gray-400 mb-1">Visibility score</p>
+                <div class="flex items-center space-x-3">
+                    <span class="text-4xl font-bold text-white">89.8%</span>
+                    <span class="flex items-center text-sm text-accent">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        1%
+                    </span>
+                    <span class="text-sm text-gray-500">vs last week</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chart Area -->
+        <div class="relative h-48 mt-4">
+            <!-- Y-axis labels -->
+            <div class="absolute left-0 top-0 bottom-0 w-12 flex flex-col justify-between text-xs text-gray-500 py-2">
+                <span>100%</span>
+                <span>75%</span>
+                <span>50%</span>
+                <span>25%</span>
+                <span>0</span>
+            </div>
+            <!-- Chart SVG -->
+            <div class="ml-12 h-full relative">
+                <svg class="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                    <!-- Grid lines -->
+                    <line x1="0" y1="0" x2="400" y2="0" stroke="#2a2a2a" stroke-width="1"/>
+                    <line x1="0" y1="37.5" x2="400" y2="37.5" stroke="#2a2a2a" stroke-width="1"/>
+                    <line x1="0" y1="75" x2="400" y2="75" stroke="#2a2a2a" stroke-width="1"/>
+                    <line x1="0" y1="112.5" x2="400" y2="112.5" stroke="#2a2a2a" stroke-width="1"/>
+                    <line x1="0" y1="150" x2="400" y2="150" stroke="#2a2a2a" stroke-width="1"/>
+                    
+                    <!-- Area fill -->
+                    <defs>
+                        <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.3"/>
+                            <stop offset="100%" style="stop-color:#22c55e;stop-opacity:0"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,45 Q50,40 100,42 T200,38 T300,35 T400,30 L400,150 L0,150 Z" fill="url(#areaGradient)"/>
+                    
+                    <!-- Line -->
+                    <path d="M0,45 Q50,40 100,42 T200,38 T300,35 T400,30" fill="none" stroke="#22c55e" stroke-width="2"/>
+                    
+                    <!-- Dotted reference line -->
+                    <line x1="0" y1="40" x2="400" y2="40" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+                </svg>
+                
+                <!-- X-axis labels -->
+                <div class="flex justify-between text-xs text-gray-500 mt-2">
+                    <span>Jan 29</span>
+                    <span>Jan 31</span>
+                    <span>Feb 02</span>
+                    <span>Feb 03</span>
+                    <span>Feb 04</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ranking Card -->
+    <div class="bg-card-bg border border-border-color rounded-xl p-6">
+        <h3 class="text-sm font-medium text-white mb-4">User Activity Ranking</h3>
+        <div class="space-y-3">
+            {% set sample_users = [
+                {'rank': 1, 'name': 'Admin', 'change': '+5%', 'up': true, 'score': '92%'},
+                {'rank': 2, 'name': 'John Doe', 'change': '+1%', 'up': true, 'score': '89.8%'},
+                {'rank': 3, 'name': 'Jane Smith', 'change': '-1%', 'up': false, 'score': '85.2%'},
+                {'rank': 4, 'name': 'Bob Wilson', 'change': '+5%', 'up': true, 'score': '78%'},
+                {'rank': 5, 'name': 'Alice Brown', 'change': '-2%', 'up': false, 'score': '76.9%'},
+                {'rank': 6, 'name': 'Charlie Davis', 'change': '+1.8%', 'up': true, 'score': '72.3%'}
+            ] %}
+            {% for user in sample_users %}
+            <div class="flex items-center justify-between py-2 {% if not loop.last %}border-b border-border-color{% endif %}">
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-500 w-4">{{ user.rank }}</span>
+                    <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">
+                        {{ user.name[0] }}
+                    </div>
+                    <span class="text-sm text-white">{{ user.name }}</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs {% if user.up %}text-accent{% else %}text-red-400{% endif %}">
+                        {% if user.up %}↑{% else %}↓{% endif %}{{ user.change }}
+                    </span>
+                    <span class="text-sm text-white w-14 text-right">{{ user.score }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-card-bg border border-border-color rounded-xl p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-400">Total Users</p>
+                <p class="text-2xl font-semibold text-white mt-1">{{ users|length if users else '0' }}</p>
+            </div>
+            <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="flex items-center mt-3 text-xs">
+            <span class="text-accent">↑ 12%</span>
+            <span class="text-gray-500 ml-2">vs last month</span>
+        </div>
+    </div>
+    
+    <div class="bg-card-bg border border-border-color rounded-xl p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-400">Active Sessions</p>
+                <p class="text-2xl font-semibold text-white mt-1">24</p>
+            </div>
+            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="flex items-center mt-3 text-xs">
+            <span class="text-accent">↑ 8%</span>
+            <span class="text-gray-500 ml-2">vs last week</span>
+        </div>
+    </div>
+    
+    <div class="bg-card-bg border border-border-color rounded-xl p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-400">Admin Users</p>
+                <p class="text-2xl font-semibold text-white mt-1">{{ admin_count if admin_count else '1' }}</p>
+            </div>
+            <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="flex items-center mt-3 text-xs">
+            <span class="text-gray-500">No change</span>
+        </div>
+    </div>
+    
+    <div class="bg-card-bg border border-border-color rounded-xl p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-400">OAuth Logins</p>
+                <p class="text-2xl font-semibold text-white mt-1">{{ oauth_count if oauth_count else '0' }}</p>
+            </div>
+            <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="flex items-center mt-3 text-xs">
+            <span class="text-accent">↑ 25%</span>
+            <span class="text-gray-500 ml-2">vs last month</span>
+        </div>
+    </div>
+</div>
+
+<!-- Topic Visibility Section -->
+<div class="bg-card-bg border border-border-color rounded-xl p-6">
+    <h3 class="text-lg font-medium text-white mb-4">Recent Activity</h3>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="text-left text-xs text-gray-500 uppercase tracking-wider">
+                    <th class="pb-3 font-medium">User</th>
+                    <th class="pb-3 font-medium">Action</th>
+                    <th class="pb-3 font-medium">Date</th>
+                    <th class="pb-3 font-medium">Status</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm">
+                <tr class="border-t border-border-color">
+                    <td class="py-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">JD</div>
+                            <span class="text-white">john@example.com</span>
+                        </div>
+                    </td>
+                    <td class="py-3 text-gray-400">Logged in via Google</td>
+                    <td class="py-3 text-gray-500">2 minutes ago</td>
+                    <td class="py-3"><span class="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full">Active</span></td>
+                </tr>
+                <tr class="border-t border-border-color">
+                    <td class="py-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">JS</div>
+                            <span class="text-white">jane@example.com</span>
+                        </div>
+                    </td>
+                    <td class="py-3 text-gray-400">Updated profile</td>
+                    <td class="py-3 text-gray-500">15 minutes ago</td>
+                    <td class="py-3"><span class="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full">Active</span></td>
+                </tr>
+                <tr class="border-t border-border-color">
+                    <td class="py-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">AD</div>
+                            <span class="text-white">admin@example.com</span>
+                        </div>
+                    </td>
+                    <td class="py-3 text-gray-400">Changed user role</td>
+                    <td class="py-3 text-gray-500">1 hour ago</td>
+                    <td class="py-3"><span class="px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded-full">Completed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
