@@ -24,7 +24,8 @@ Great starting point for your vibe-coding project. Save some prompts with this p
 
 
 ### Admin Panel
-<img width="1200"  alt="image" src="https://github.com/user-attachments/assets/1b58c122-3b69-430b-9172-cce32f8def98" />
+<img width="1200" alt="image" src="https://github.com/user-attachments/assets/fa7a70c1-9987-4d4a-8ef2-eba89eb026c6" />
+
 
 
 ## 🚀 Quick Start
