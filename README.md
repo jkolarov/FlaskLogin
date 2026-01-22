@@ -1,6 +1,7 @@
 # Flask Auth Skeleton 🔐
 
 A production-ready Flask authentication skeleton with OAuth integration, role-based access control, and a responsive Tailwind CSS frontend.
+Great starting point for your vibe-coding project. Save some prompts with this prebuilt template. 
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)
@@ -19,38 +20,12 @@ A production-ready Flask authentication skeleton with OAuth integration, role-ba
 ## 📸 Screenshots
 
 ### Login Page
-```
-┌─────────────────────────────────────────┐
-│           Flask Auth                    │
-│                                         │
-│  ┌─────────────────────────────────┐   │
-│  │ Email                           │   │
-│  └─────────────────────────────────┘   │
-│  ┌─────────────────────────────────┐   │
-│  │ Password                        │   │
-│  └─────────────────────────────────┘   │
-│                                         │
-│  [        Sign In        ]              │
-│                                         │
-│  ─────── Or continue with ───────      │
-│                                         │
-│  [Google] [Facebook] [GitHub]           │
-│                                         │
-│  Don't have an account? Register        │
-└─────────────────────────────────────────┘
-```
+<img width="1200"  alt="image" src="https://github.com/user-attachments/assets/845e3c9f-ed71-48f5-ace1-9e8a44e7a252" />
+
 
 ### Admin Panel
-```
-┌─────────────────────────────────────────┐
-│  User Management                        │
-├─────────────────────────────────────────┤
-│  Email          │ Role  │ Actions       │
-├─────────────────────────────────────────┤
-│  admin@test.com │ admin │ [Edit][Delete]│
-│  user@test.com  │ user  │ [Edit][Delete]│
-└─────────────────────────────────────────┘
-```
+<img width="1200"  alt="image" src="https://github.com/user-attachments/assets/1b58c122-3b69-430b-9172-cce32f8def98" />
+
 
 ## 🚀 Quick Start
 
