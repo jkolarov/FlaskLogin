@@ -5,6 +5,7 @@ Great starting point for your vibe-coding project. Save some prompts with this p
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)
+![SQLite](https://img.shields.io/badge/SQLite-3-07405E.svg?logo=sqlite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## ✨ Features
