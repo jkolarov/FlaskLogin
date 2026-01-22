@@ -28,9 +28,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code
 COPY . .
 
+# Create data directory for SQLite database
+RUN mkdir -p /data
+
 # Create a non-root user for security
 RUN useradd --create-home --shell /bin/bash appuser && \
-    chown -R appuser:appuser /app
+    chown -R appuser:appuser /app && \
+    chown -R appuser:appuser /data
 USER appuser
 
 # Expose the Flask default port
