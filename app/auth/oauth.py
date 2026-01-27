@@ -93,7 +93,7 @@ class OAuthService:
         SUPPORTED_PROVIDERS: List of supported OAuth provider names
     """
     
-    SUPPORTED_PROVIDERS = ['google', 'facebook', 'github']
+    SUPPORTED_PROVIDERS = ['google', 'github']
     
     @staticmethod
     def get_provider(name: str) -> Optional[FlaskOAuth2App]:

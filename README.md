@@ -8,10 +8,21 @@ Great starting point for your vibe-coding project. Save some prompts with this p
 ![SQLite](https://img.shields.io/badge/SQLite-3-07405E.svg?logo=sqlite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## 🌐 Live Demo
+
+Try it out at **[https://fluxory.dev](https://fluxory.dev)**
+
+### Test Accounts
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@test.com` | `admin123` |
+| User | `user@test.com` | `user123` |
+
 ## ✨ Features
 
 - **Email/Password Authentication** - Secure registration and login with bcrypt password hashing
-- **OAuth Integration** - Login with Google, Facebook, or GitHub via Authlib
+- **OAuth Integration** - Login with Google or GitHub via Authlib
 - **Role-Based Access Control** - Admin and User roles with protected routes
 - **Admin Panel** - Manage users, edit roles, and delete accounts
 - **Responsive UI** - Clean Tailwind CSS design that works on all devices
@@ -105,8 +116,6 @@ DATABASE_URL=sqlite:///instance/dev.db
 # OAuth (optional)
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
-FACEBOOK_CLIENT_ID=your-facebook-client-id
-FACEBOOK_CLIENT_SECRET=your-facebook-client-secret
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
 ```
