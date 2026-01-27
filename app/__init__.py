@@ -14,6 +14,7 @@ Requirements addressed:
 from flask import Flask
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import config
 from app.models import db, User
@@ -78,6 +79,10 @@ def create_app(config_name: str = 'development') -> Flask:
     
     # Load configuration based on environment
     app.config.from_object(config.get(config_name, config['default']))
+    
+    # Apply ProxyFix middleware for reverse proxy support (Cloudflare Tunnel, nginx, etc.)
+    # This ensures url_for(_external=True) generates correct URLs with proper scheme and host
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     
     # Call init_app if the config class has it (e.g., ProductionConfig)
     config_class = config.get(config_name, config['default'])
