@@ -105,3 +105,8 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Grafana
+grafana/
+.grafana/
+

@@ -22,6 +22,7 @@ from app.auth import auth_bp
 from app.auth.forms import RegistrationForm, LoginForm
 from app.auth.password import PasswordService
 from app.models import db
+from app.metrics import login_counter, registration_counter
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -63,17 +64,20 @@ def login():
         # Check if user exists and has a password hash (not OAuth-only user)
         if user is None or user.password_hash is None:
             # Invalid credentials - user doesn't exist or is OAuth-only (Requirement 2.2)
+            login_counter.labels(method='password', status='failure').inc()
             flash('Invalid email or password.', 'error')
             return render_template('auth/login.html', form=form)
         
         # Verify password against stored hash (Requirement 2.3)
         if not PasswordService.verify_password(form.password.data, user.password_hash):
             # Invalid credentials - password doesn't match (Requirement 2.2)
+            login_counter.labels(method='password', status='failure').inc()
             flash('Invalid email or password.', 'error')
             return render_template('auth/login.html', form=form)
         
         # Create session with Flask-Login (Requirement 2.1)
         login_user(user, remember=form.remember_me.data)
+        login_counter.labels(method='password', status='success').inc()
         
         # Redirect to dashboard (Requirement 2.1)
         flash('Login successful!', 'success')
@@ -127,6 +131,7 @@ def register():
                 role='user'
             )
             
+            registration_counter.labels(status='success').inc()
             # Flash success message and redirect to login (Requirement 1.6)
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('auth.login'))
@@ -134,10 +139,12 @@ def register():
         except IntegrityError:
             # Handle duplicate email error gracefully (race condition)
             db.session.rollback()
+            registration_counter.labels(status='failure').inc()
             form.email.errors.append('An account with this email already exists.')
         except ValueError as e:
             # Handle validation errors from UserService
             db.session.rollback()
+            registration_counter.labels(status='failure').inc()
             flash(str(e), 'error')
     
     return render_template('auth/register.html', form=form)
@@ -290,6 +297,7 @@ def oauth_callback(provider: str):
         
         # Log the user in with Flask-Login
         login_user(user)
+        login_counter.labels(method=f'oauth_{provider}', status='success').inc()
         
         # Redirect to dashboard with success message
         flash(f'Successfully logged in with {provider.capitalize()}!', 'success')
@@ -297,10 +305,12 @@ def oauth_callback(provider: str):
         
     except ValueError as e:
         # Handle validation errors (missing provider_user_id or email)
+        login_counter.labels(method=f'oauth_{provider}', status='failure').inc()
         flash('Authentication failed. Please try again.', 'error')
         return redirect(url_for('auth.login'))
         
     except Exception as e:
         # Handle any other errors during OAuth callback (Requirement 3.5)
+        login_counter.labels(method=f'oauth_{provider}', status='failure').inc()
         flash('Authentication failed. Please try again.', 'error')
         return redirect(url_for('auth.login'))

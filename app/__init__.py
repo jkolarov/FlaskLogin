@@ -11,10 +11,11 @@ Requirements addressed:
 - 3.1: OAuth provider configuration for redirect capability
 """
 
-from flask import Flask
+from flask import Flask, request
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.middleware.proxy_fix import ProxyFix
+from prometheus_flask_exporter import PrometheusMetrics
 
 from config import config
 from app.models import db, User
@@ -29,6 +30,10 @@ login_manager.login_message_category = 'info'
 
 # Initialize Flask-WTF CSRF protection (Requirement 10.1)
 csrf = CSRFProtect()
+
+# Initialize Prometheus metrics with path labels
+metrics = PrometheusMetrics.for_app_factory(default_labels={'app': 'flask-auth'})
+metrics.info('flask_app_info', 'Flask Auth application info', version='1.0.0')
 
 
 @login_manager.user_loader
@@ -97,6 +102,19 @@ def create_app(config_name: str = 'development') -> Flask:
     
     # Initialize Flask-WTF CSRF protection (Requirement 10.1)
     csrf.init_app(app)
+    
+    # Initialize Prometheus metrics (exposes /metrics endpoint)
+    metrics.init_app(app)
+    
+    # Track requests by IP address
+    @app.before_request
+    def track_ip():
+        from app.metrics import requests_by_ip, unique_ips, seen_ips
+        ip = request.remote_addr or 'unknown'
+        requests_by_ip.labels(ip=ip).inc()
+        if ip not in seen_ips:
+            seen_ips.add(ip)
+            unique_ips.set(len(seen_ips))
     
     # Initialize OAuth providers (Requirement 3.1)
     init_oauth(app)
